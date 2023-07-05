@@ -1,40 +1,50 @@
 package units;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class launch {
     public static void main(String[] args) {
 
-        int teamCount = 10;
-        Random rand = new Random();
+        ArrayList<Unit> firstTeam = createFirstTeam();
+        ArrayList<Unit> secondTeam = createSecondTeam();
 
-        System.out.println("Team 1:");
-        List<Unit> team1 = new ArrayList<>();
+        System.out.println("_".repeat(70) + "\n" + "First Team:");
+        firstTeam.forEach(n -> System.out.println(n.getInfo()));
+        System.out.println("_".repeat(70) + "\n" + "Second Team:");
+        secondTeam.forEach(n -> System.out.println(n.getInfo()));
+
+        System.out.println("_".repeat(70) + "\n" + "The nearest opponent:");
+        firstTeam.forEach(n -> n.step(secondTeam));
+    }
+
+    static int teamCount = 10;
+    static Random rand = new Random();
+    public static ArrayList<Unit> createFirstTeam(){
+        ArrayList<Unit> team1 = new ArrayList<>();
         for (int i = 0; i < teamCount; i++) {
             int val = rand.nextInt(4);
             switch (val) {
-                case 0 -> team1.add(new Infantries());
-                case 1 -> team1.add(new Wizards());
-                case 2 -> team1.add(new Archers());
-                case 3 -> team1.add(new Peasants());
+                case 0 -> team1.add(new Thieves(team1, 0, rand.nextInt(0,10)));
+                case 1 -> team1.add(new Magicians(team1, 0, rand.nextInt(0,10)));
+                case 2 -> team1.add(new Crossbowmans(team1, 0, rand.nextInt(0,10)));
+                case 3 -> team1.add(new Peasants(team1, 0, rand.nextInt(0,10)));
             }
-            System.out.println(team1.get(i).getInfo());
         }
+        return team1;
+    }
 
-        System.out.println("Team 2:");
-        List<Unit> team2 = new ArrayList<>();
+    public static ArrayList<Unit> createSecondTeam(){
+        ArrayList<Unit> team2 = new ArrayList<>();
         for (int i = 0; i < teamCount; i++) {
-        int val = rand.nextInt(4);
+            int val = rand.nextInt(4);
             switch (val) {
-                case 0 -> team2.add(new Infantries());
-                case 1 -> team2.add(new Wizards());
-                case 2 -> team2.add(new Archers());
-                case 3 -> team2.add(new Peasants());
+                case 0 -> team2.add(new Spearmans(team2, 9, rand.nextInt(0,10)));
+                case 1 -> team2.add(new Monks(team2, 9, rand.nextInt(0,10)));
+                case 2 -> team2.add(new Snipers(team2, 9, rand.nextInt(0,10)));
+                case 3 -> team2.add(new Peasants(team2, 9, rand.nextInt(0,10)));
             }
-            System.out.println(team2.get(i).getInfo());
-
         }
+        return team2;
     }
 }

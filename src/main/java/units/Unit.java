@@ -1,44 +1,49 @@
 package units;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public abstract class Unit {
-    public String name;
-    public int health;
-    public int defence;
-    public int attack;
-    public int speed;
-    public int actionPoints;
+public abstract class Unit implements IntGame{
+    protected String name;
+    protected int attack, defence, health, maxHealth, speed, actionPoints;
+    protected int[] damage;
     protected static int num;
     protected static Random ran;
     static{
         Unit.num = 0;
         Unit.ran = new Random();
     }
+    protected Coordinates coordinates;
 
-    public Unit(String name, int health, int attack, int defence, int speed, int actionPoints) {
+    public Unit(String name, int attack, int defence, int health, int[] damage, int speed, int actionPoints, int x, int y) {
         this.name = name;
-        this.health = health;
         this.attack = attack;
         this.defence = defence;
+        this.maxHealth = health;
+        this.health = maxHealth;
+        this.damage = damage;
         this.speed = speed;
         this.actionPoints = actionPoints;
+        this.coordinates = new Coordinates(x, y);
     }
+    protected List<Unit> list;
 
-//    public Unit(){
-//        this(String.format("Hero_Archers #%d", ++Unit.num), Unit.ran.nextInt(50,100));
-//    }
+    public Unit(List<Unit> heroes){
+        list = heroes;
+    }
 
     public String getInfo(){
-        return String.format("Name: %s Type: %s Hp: %d Att: %d Def: %d Sp: %d Ap: %d",
-                this.name, this.getClass().getSimpleName(), this.health, this.attack, this.defence, this.speed, this.actionPoints);
+        return String.format("👤: %s 📜: %s ❤️: %d ⚔️: %d 🛡️: %d 🏃🏻‍️: %d 🦶🏻: %d 📍: {%d %d}",
+                this.name, this.getClass().getSimpleName(), this.health, this.attack, this.defence, this.speed,
+                this.actionPoints, coordinates.x, coordinates.y);
     }
 
-    public void healed(int Hp) {
+    public void getHeal(int Hp) {
         this.health = Hp + this.health;
     }
 
-    public void GetDamage(int damage) {
+    public void getDamage(int damage) {
         if (this.health - damage > 0) {
             this.health -= damage;
         }
@@ -47,25 +52,22 @@ public abstract class Unit {
 
     public void attack(Unit target){
         int damage = Unit.ran.nextInt(0,100);
-        target.GetDamage(damage);
+        target.getDamage(damage);
     }
 
     public static String getName(){
-        String s = String.valueOf(Name.values()[new Random().nextInt(Name.values().length)]);
-        return s;
+        return String.valueOf(Name.values()[new Random().nextInt(Name.values().length)]);
     }
 
-    public boolean hasAp(){
-        if(actionPoints > 0){
-            return true;
-        }else{
-            return false;
+    public Unit nearestEnemy(ArrayList<Unit> enemyTeam){
+        Unit nearEnemy = enemyTeam.get(0);
+        double nearDist = Double.MAX_VALUE;
+        for (int i = 0; i < enemyTeam.size(); i++) {
+            if (coordinates.getDistance(enemyTeam.get(i).coordinates) < nearDist) {
+                nearEnemy = enemyTeam.get(i);
+                nearDist = coordinates.getDistance(enemyTeam.get(i).coordinates);
+            }
         }
-    }
-    public int move(){
-        while(hasAp()){
-            actionPoints -= 1;
-        }
-        return move();
+        return nearEnemy;
     }
 }

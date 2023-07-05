@@ -1,6 +1,8 @@
 package units;
 
+import java.util.ArrayList;
+
 public interface IntGame {
-    void step();
+    void step(ArrayList<Unit>units);
     String getInfo();
 }

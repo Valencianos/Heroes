@@ -1,25 +1,21 @@
 package units;
 
+import java.util.List;
 import java.util.Random;
 
-public class Infantries extends Unit{
+public abstract class Infantries extends Unit{
 
     public int armour;
-    public int stamina;
 
-    public Infantries() {
-        super(getName(),
-                Infantries.ran.nextInt(150, 200),
-                Infantries.ran.nextInt(50, 75),
-                Infantries.ran.nextInt(75, 100),
-                Infantries.ran.nextInt(5, 15),
-                Infantries.ran.nextInt(12, 17));
-        this.armour = Infantries.ran.nextInt(30, 40);
-        this.stamina = Infantries.ran.nextInt(40, 50);
+    public Infantries(String name, int attack, int defence, int health, int[] damage, int speed, int actionPoints, int armour, int x, int y) {
+        super(name, attack, defence, health, damage, speed, actionPoints, x, y);
+        this.armour = armour;
     }
+
+
     public String getInfo(){
-        return String.format("%s  Arm: %d Stm: %d", super.getInfo(),
-                this.armour, this.stamina);
+        return String.format("%s  🪖: %d", super.getInfo(),
+                this.armour);
     }
 }
 

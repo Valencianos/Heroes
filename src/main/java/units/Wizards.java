@@ -1,14 +1,15 @@
 package units;
 
-public class Wizards extends Unit{
+public abstract class Wizards extends Unit{
+    public int heal;
 
-    public Wizards() {
-        super(getName(),
-                Wizards.ran.nextInt(100, 150),
-                Wizards.ran.nextInt(25, 50),
-                Wizards.ran.nextInt(50, 75),
-                Wizards.ran.nextInt(10, 20),
-                Wizards.ran.nextInt(13, 18));
+    public Wizards(String name, int attack, int defence, int health, int[] damage, int speed, int actionPoints, int heal, int x, int y) {
+        super(name, attack, defence, health, damage, speed, actionPoints, x, y);
+        this.heal = heal;
     }
 
+    public String getInfo(){
+        return String.format("%s 🔋: %d", super.getInfo(),
+                this.heal);
+    }
 }
