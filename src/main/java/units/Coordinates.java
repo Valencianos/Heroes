@@ -8,9 +8,9 @@ public class Coordinates {
         this.y = y;
     }
 
-//    public Boolean isEquals(Coordinates opponent){
-//        return opponent.y == y && opponent.x == x;
-//    }
+    public Boolean isEquals(Coordinates opponent){
+        return opponent.y == y && opponent.x == x;
+    }
 
     public float getDistance(Coordinates coordinates){
         int dx = coordinates.x - x;

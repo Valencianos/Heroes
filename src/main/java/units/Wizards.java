@@ -1,5 +1,7 @@
 package units;
 
+import java.util.ArrayList;
+
 public abstract class Wizards extends Unit{
     public int heal;
 
@@ -12,4 +14,12 @@ public abstract class Wizards extends Unit{
         return String.format("%s 🔋: %d", super.getInfo(),
                 this.heal);
     }
+
+    @Override
+    public void step(ArrayList<Unit>myTeam, ArrayList<Unit>oppTeam) {
+        Unit tmp = nearestEnemy(oppTeam);
+        System.out.println(tmp.name + " " + coordinates.getDistance(tmp.coordinates));
+    }
+
+
 }

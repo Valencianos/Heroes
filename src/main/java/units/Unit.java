@@ -9,6 +9,12 @@ public abstract class Unit implements IntGame{
     protected int attack, defence, health, maxHealth, speed, actionPoints;
     protected int[] damage;
     protected static int num;
+    protected List<Unit> list;
+    private String status;
+
+    public Unit(List<Unit> heroes){
+        list = heroes;
+    }
     protected static Random ran;
     static{
         Unit.num = 0;
@@ -27,11 +33,6 @@ public abstract class Unit implements IntGame{
         this.actionPoints = actionPoints;
         this.coordinates = new Coordinates(x, y);
     }
-    protected List<Unit> list;
-
-    public Unit(List<Unit> heroes){
-        list = heroes;
-    }
 
     public String getInfo(){
         return String.format("👤: %s 📜: %s ❤️: %d ⚔️: %d 🛡️: %d 🏃🏻‍️: %d 🦶🏻: %d 📍: {%d %d}",
@@ -39,20 +40,39 @@ public abstract class Unit implements IntGame{
                 this.actionPoints, coordinates.x, coordinates.y);
     }
 
+    public int getHealth(){
+        return health;
+    }
     public void getHeal(int Hp) {
-        this.health = Hp + this.health;
+        health = Hp + health;
+        if(health > maxHealth){
+            health = maxHealth;
+        }
+    }
+
+    protected String getStatus() {
+        return status;
+    }
+    protected void setStatus(String status) {
+        this.status = status;
     }
 
     public void getDamage(int damage) {
-        if (this.health - damage > 0) {
-            this.health -= damage;
+        if (health - damage > 0) {
+            health -= damage;
         }
-        // else { die(); }
+        else { die(); }
     }
 
-    public void attack(Unit target){
-        int damage = Unit.ran.nextInt(0,100);
-        target.getDamage(damage);
+    public void die(){
+        if(health < 0){
+            status = "Die";
+        }
+    }
+
+    public void getAttack(Unit target, int[] damage){
+        int dam = (damage[0] + damage[1]) / 2;
+        target.getDamage(dam);
     }
 
     public static String getName(){
