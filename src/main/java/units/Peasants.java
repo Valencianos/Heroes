@@ -2,6 +2,7 @@ package units;
 
 import java.util.ArrayList;
 
+
 public class Peasants extends Unit implements IntGame{
 
     public int capacity;
@@ -13,8 +14,9 @@ public class Peasants extends Unit implements IntGame{
 
     @Override
     public void step(ArrayList<Unit>myTeam, ArrayList<Unit>oppTeam) {
-        Unit tmp = nearestEnemy(oppTeam);
-        System.out.println(tmp.name + " " + coordinates.getDistance(tmp.coordinates));
+        if(status.equals("die")){
+            status = "stand";
+        }
     }
 
 
@@ -22,5 +24,7 @@ public class Peasants extends Unit implements IntGame{
         return String.format("%s  🎒: %d", super.getInfo(),
                 this.capacity);
     }
+
+
 }
 

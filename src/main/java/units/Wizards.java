@@ -17,9 +17,16 @@ public abstract class Wizards extends Unit{
 
     @Override
     public void step(ArrayList<Unit>myTeam, ArrayList<Unit>oppTeam) {
-        Unit tmp = nearestEnemy(oppTeam);
-        System.out.println(tmp.name + " " + coordinates.getDistance(tmp.coordinates));
+        if(!status.equals("die")){
+            float min_hp = 1000;
+            int index = 0;
+            for (int i = 0; i < myTeam.size(); i++ ) {
+                if((float) (myTeam.get(i).health /maxHealth) < min_hp){
+                    min_hp = (float) (myTeam.get(i).health /maxHealth);
+                    index = i;
+                }
+            }
+            myTeam.get(index).getDamage((this.damage[0] - this.damage[1]) / 2);
+        }
     }
-
-
 }

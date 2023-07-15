@@ -1,7 +1,6 @@
 package units;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public abstract class Unit implements IntGame{
@@ -9,12 +8,8 @@ public abstract class Unit implements IntGame{
     protected int attack, defence, health, maxHealth, speed, actionPoints;
     protected int[] damage;
     protected static int num;
-    protected List<Unit> list;
-    private String status;
+    protected String status;
 
-    public Unit(List<Unit> heroes){
-        list = heroes;
-    }
     protected static Random ran;
     static{
         Unit.num = 0;
@@ -31,6 +26,7 @@ public abstract class Unit implements IntGame{
         this.damage = damage;
         this.speed = speed;
         this.actionPoints = actionPoints;
+        this.status = "stand";
         this.coordinates = new Coordinates(x, y);
     }
 
@@ -43,12 +39,6 @@ public abstract class Unit implements IntGame{
     public int getHealth(){
         return health;
     }
-    public void getHeal(int Hp) {
-        health = Hp + health;
-        if(health > maxHealth){
-            health = maxHealth;
-        }
-    }
 
     protected String getStatus() {
         return status;
@@ -58,17 +48,14 @@ public abstract class Unit implements IntGame{
     }
 
     public void getDamage(int damage) {
-        if (health - damage > 0) {
-            health -= damage;
+        health -= damage;
+        if (health - damage < 1) {
+            status = "die";
+            health = 0;
         }
-        else { die(); }
+        if(health > maxHealth) health = maxHealth;
     }
 
-    public void die(){
-        if(health < 0){
-            status = "Die";
-        }
-    }
 
     public void getAttack(Unit target, int[] damage){
         int dam = (damage[0] + damage[1]) / 2;
@@ -89,5 +76,13 @@ public abstract class Unit implements IntGame{
             }
         }
         return nearEnemy;
+    }
+
+    public static int compare(Unit o1, Unit o2){
+        return Integer.compare(o2.speed,o1.speed);
+    }
+
+    public Coordinates getPosition(){
+        return this.coordinates;
     }
 }

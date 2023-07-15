@@ -1,5 +1,6 @@
 package units;
 
+
 public class Coordinates {
     int x, y;
 
@@ -8,8 +9,13 @@ public class Coordinates {
         this.y = y;
     }
 
-    public Boolean isEquals(Coordinates opponent){
-        return opponent.y == y && opponent.x == x;
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
     }
 
     public float getDistance(Coordinates coordinates){

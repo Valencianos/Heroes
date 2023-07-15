@@ -30,6 +30,7 @@ public abstract class Archers extends Unit{
         for (Unit units:myTeam) {
             if (units.name.equals("Peasant")){
                 arrows++;
+                units.status = "busy";
                 break;
             }
         }

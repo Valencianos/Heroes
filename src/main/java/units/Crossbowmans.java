@@ -1,6 +1,5 @@
 package units;
 
-import java.util.ArrayList;
 
 public class Crossbowmans extends Archers implements IntGame{
 
