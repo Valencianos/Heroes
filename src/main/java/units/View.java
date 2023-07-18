@@ -27,8 +27,8 @@ public class View {
     private static String getChar(int x, int y){
         String out = "| ";
         for (Unit unit: launch.allTeam) {
-            if (unit.getPosition().getX() == x && unit.getPosition().getY() == y){
-                if (unit.status.equals("die")) {
+            if (unit.getPosition().get(0) == x && unit.getPosition().get(1) == y){
+                if (!unit.isAlive) {
                     out = "|" + (Colors.ANSI_RED + unit.toString().charAt(0) + Colors.ANSI_RESET);
                     break;
                 }

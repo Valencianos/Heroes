@@ -16,20 +16,20 @@ public class launch {
         for (int i = 0; i < teamCount; i++) {
              int val = rand.nextInt(4);
              switch (val) {
-                 case 0 -> firstTeam.add(new Spearmans(0, rand.nextInt(0, 10)));
-                 case 1 -> firstTeam.add(new Magicians(0, rand.nextInt(0, 10)));
-                 case 2 -> firstTeam.add(new Crossbowmans(0, rand.nextInt(0, 10)));
-                 case 3 -> firstTeam.add(new Peasants(0, rand.nextInt(0, 10)));
+                 case 0 -> firstTeam.add(new Spearmans(1, rand.nextInt(0, 10)));
+                 case 1 -> firstTeam.add(new Magicians(1, rand.nextInt(0, 10)));
+                 case 2 -> firstTeam.add(new Crossbowmans(1, rand.nextInt(0, 10)));
+                 case 3 -> firstTeam.add(new Peasants(1, rand.nextInt(0, 10)));
                 }
             }
 
         for (int i = 0; i < teamCount; i++) {
             int val = rand.nextInt(4);
             switch (val) {
-                case 0 -> secondTeam.add(new Thieves(9, rand.nextInt(0, 10)));
-                case 1 -> secondTeam.add(new Monks(9, rand.nextInt(0, 10)));
-                case 2 -> secondTeam.add(new Snipers(9, rand.nextInt(0, 10)));
-                case 3 -> secondTeam.add(new Peasants(9, rand.nextInt(0, 10)));
+                case 0 -> secondTeam.add(new Thieves(10, rand.nextInt(0, 10)));
+                case 1 -> secondTeam.add(new Monks(10, rand.nextInt(0, 10)));
+                case 2 -> secondTeam.add(new Snipers(10, rand.nextInt(0, 10)));
+                case 3 -> secondTeam.add(new Peasants(10, rand.nextInt(0, 10)));
                 }
             }
         allTeam.addAll(firstTeam);

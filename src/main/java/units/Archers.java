@@ -7,9 +7,9 @@ public abstract class Archers extends Unit{
     public int accuracy;
     public int arrows;
 
-    public Archers(String name, int attack, int defence, int health, int[] damage,
+    public Archers(String name, int attack, int defence, int[] damage,
                    int speed, int actionPoints, int accuracy, int arrows, int x, int y) {
-        super(name, attack, defence, health, damage, speed, actionPoints, x, y);
+        super(name, attack, defence, damage, speed, actionPoints, x, y);
         this.accuracy = accuracy;
         this.arrows = arrows;
     }

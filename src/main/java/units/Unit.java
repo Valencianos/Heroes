@@ -5,34 +5,28 @@ import java.util.Random;
 
 public abstract class Unit implements IntGame{
     protected String name;
-    protected int attack, defence, health, maxHealth, speed, actionPoints;
+    protected int attack, health, maxHealth, speed, actionPoints;
     protected int[] damage;
-    protected static int num;
+    protected boolean isAlive;
     protected String status;
 
-    protected static Random ran;
-    static{
-        Unit.num = 0;
-        Unit.ran = new Random();
-    }
     protected Coordinates coordinates;
 
-    public Unit(String name, int attack, int defence, int health, int[] damage, int speed, int actionPoints, int x, int y) {
+    public Unit(String name, int attack, int health, int[] damage, int speed, int actionPoints, int x, int y) {
         this.name = name;
         this.attack = attack;
-        this.defence = defence;
         this.maxHealth = health;
         this.health = maxHealth;
         this.damage = damage;
         this.speed = speed;
         this.actionPoints = actionPoints;
         this.status = "stand";
-        this.coordinates = new Coordinates(x, y);
+        coordinates = new Coordinates(x, y);
     }
 
     public String getInfo(){
-        return String.format("👤: %s 📜: %s ❤️: %d ⚔️: %d 🛡️: %d 🏃🏻‍️: %d 🦶🏻: %d 📍: {%d %d}",
-                this.name, this.getClass().getSimpleName(), this.health, this.attack, this.defence, this.speed,
+        return String.format("👤: %s 📜: %s ❤️: %d ⚔️: %d 🏃🏻‍️: %d 🦶🏻: %d 📍: {%d %d}",
+                this.name, this.getClass().getSimpleName(), this.health, this.attack, this.speed,
                 this.actionPoints, coordinates.x, coordinates.y);
     }
 
@@ -82,7 +76,13 @@ public abstract class Unit implements IntGame{
         return Integer.compare(o2.speed,o1.speed);
     }
 
-    public Coordinates getPosition(){
-        return this.coordinates;
+    public ArrayList<Integer> getPosition(){
+        return coordinates.xy;
+    }
+
+    public void move(Coordinates enemyPos){
+        for(int i = 0; i < moveDist; i++){
+
+        }
     }
 }
