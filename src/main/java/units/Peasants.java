@@ -8,23 +8,21 @@ public class Peasants extends Unit implements IntGame{
     public int capacity;
 
     public Peasants(int x, int y) {
-        super(getName(), 10, 20, 80, new int[]{5, 10}, 8, 8, x, y);
+        super(getName(), 10, 20, 80, 8, 8, x, y, true);
         this.capacity = 1;
     }
 
     @Override
-    public void step(ArrayList<Unit>myTeam, ArrayList<Unit>oppTeam) {
-        if(status.equals("die")){
-            status = "stand";
+    public void step(ArrayList<Unit>oppTeam, ArrayList<Unit>myTeam) {
+        if(isAlive){
+            if(status.equals("busy")) {
+                status = "stand";
+            }
         }
     }
 
-
+    @Override
     public String getInfo(){
-        return String.format("%s  🎒: %d", super.getInfo(),
-                this.capacity);
+        return "Peasant " + "[" + coordinates.x + ", " + coordinates.y + "] ❤️ " + health + "/" + maxHealth + " " + status;
     }
-
-
 }
-

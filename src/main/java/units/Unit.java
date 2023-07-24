@@ -5,14 +5,12 @@ import java.util.Random;
 
 public abstract class Unit implements IntGame{
     protected String name;
-    protected int attack, health, maxHealth, speed, actionPoints;
-    protected int[] damage;
+    protected int attack, health, maxHealth, speed, actionPoints, damage;
     protected boolean isAlive;
     protected String status;
-
     protected Coordinates coordinates;
 
-    public Unit(String name, int attack, int health, int[] damage, int speed, int actionPoints, int x, int y) {
+    public Unit(String name, int attack, int health, int damage, int speed, int actionPoints, int x, int y, boolean isAlive) {
         this.name = name;
         this.attack = attack;
         this.maxHealth = health;
@@ -20,40 +18,28 @@ public abstract class Unit implements IntGame{
         this.damage = damage;
         this.speed = speed;
         this.actionPoints = actionPoints;
+        this.isAlive = isAlive;
         this.status = "stand";
         coordinates = new Coordinates(x, y);
     }
 
-    public String getInfo(){
-        return String.format("👤: %s 📜: %s ❤️: %d ⚔️: %d 🏃🏻‍️: %d 🦶🏻: %d 📍: {%d %d}",
-                this.name, this.getClass().getSimpleName(), this.health, this.attack, this.speed,
-                this.actionPoints, coordinates.x, coordinates.y);
-    }
-
-    public int getHealth(){
-        return health;
-    }
-
-    protected String getStatus() {
-        return status;
-    }
-    protected void setStatus(String status) {
-        this.status = status;
+    public String toString(){
+        return this.getInfo().split(" ")[0];
     }
 
     public void getDamage(int damage) {
         health -= damage;
-        if (health - damage < 1) {
+        if (health < 1) {
             status = "die";
             health = 0;
+            isAlive = false;
         }
         if(health > maxHealth) health = maxHealth;
     }
 
 
-    public void getAttack(Unit target, int[] damage){
-        int dam = (damage[0] + damage[1]) / 2;
-        target.getDamage(dam);
+    public void getAttack(Unit target, int damage){
+        target.getDamage(damage);
     }
 
     public static String getName(){
@@ -63,26 +49,26 @@ public abstract class Unit implements IntGame{
     public Unit nearestEnemy(ArrayList<Unit> enemyTeam){
         Unit nearEnemy = enemyTeam.get(0);
         double nearDist = Double.MAX_VALUE;
-        for (int i = 0; i < enemyTeam.size(); i++) {
-            if (coordinates.getDistance(enemyTeam.get(i).coordinates) < nearDist) {
-                nearEnemy = enemyTeam.get(i);
-                nearDist = coordinates.getDistance(enemyTeam.get(i).coordinates);
+        for (Unit unit : enemyTeam) {
+            if (coordinates.getDistance(unit.coordinates) < nearDist && unit.isAlive) {
+                nearEnemy = unit;
+                nearDist = coordinates.getDistance(unit.coordinates);
             }
         }
         return nearEnemy;
     }
 
-    public static int compare(Unit o1, Unit o2){
-        return Integer.compare(o2.speed,o1.speed);
-    }
 
     public ArrayList<Integer> getPosition(){
         return coordinates.xy;
     }
 
-    public void move(Coordinates enemyPos){
-        for(int i = 0; i < moveDist; i++){
-
+    public void move(Coordinates enemyPosition, ArrayList<Unit> team){
+        if (!coordinates.containsByPosition(coordinates.newPosition(enemyPosition, team), team)) {
+            for (int i = 0; i < actionPoints; i++) {
+                coordinates = coordinates.newPosition(enemyPosition, team);
+            }
         }
     }
 }
+

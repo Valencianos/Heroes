@@ -1,36 +1,31 @@
 package units;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+
 
 public abstract class Infantries extends Unit{
 
-    public int armour;
-    public Infantries(String name, int attack, int defence, int health, int[] damage, int speed, int actionPoints, int armour, int x, int y) {
-        super(name, attack, defence, health, damage, speed, actionPoints, x, y);
-        this.armour = armour;
+    protected int attackDistance;
+    public Infantries(String name, int attack, int health, int damage, int speed, int actionPoints, int attackDistance, int x, int y, boolean isAlive) {
+        super(name, attack, health, damage, speed, actionPoints, x, y, isAlive);
+        this.attackDistance = attackDistance;
     }
 
     public String getInfo(){
-        return String.format("%s  🪖: %d", super.getInfo(),
-                this.armour);
+        return String.format("%s  ", super.toString());
     }
 
     @Override
-    public void step(ArrayList<Unit>myTeam, ArrayList<Unit>oppTeam) {
-        if(!status.equals("die"))return;
-        
-
-            float min_hp = 1000;
-            int index = 0;
-            for (int i = 0; i < myTeam.size(); i++ ) {
-                if((float) (myTeam.get(i).health /maxHealth) < min_hp){
-                    min_hp = (float) (myTeam.get(i).health /maxHealth);
-                    index = i;
-                }
-
-            myTeam.get(index).getDamage((this.damage[0] - this.damage[1]) / 2);
+    public void step(ArrayList<Unit>oppTeam, ArrayList<Unit>myTeam) {
+        Unit curEnemy = nearestEnemy(oppTeam);
+        if (isAlive) {
+            if (coordinates.getDistance(curEnemy.coordinates) <= attackDistance) {
+                getAttack(curEnemy, damage);
+                status = "attack";
+            } else {
+                move(curEnemy.coordinates, myTeam);
+                status = "moving";
+            }
         }
     }
 }
